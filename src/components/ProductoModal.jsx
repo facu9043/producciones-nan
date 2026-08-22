@@ -7,7 +7,6 @@ export default function ProductoModal({ producto, onClose }) {
   const { agregarAlCarrito } = useCart()
   const [seleccionando, setSeleccionando] = useState(false)
   const [cantidad, setCantidad] = useState(1)
-  const [variante, setVariante] = useState(producto.variantes[0] || null)
   const [agregado, setAgregado] = useState(false)
 
   useEffect(() => {
@@ -23,10 +22,9 @@ export default function ProductoModal({ producto, onClose }) {
   }, [onClose])
 
   const acento = ACENTO_POR_CATEGORIA[producto.category] || 'ghost'
-  const tieneVariantes = producto.variantes.length > 0
 
   function confirmarAgregado() {
-    agregarAlCarrito(producto, variante, cantidad)
+    agregarAlCarrito(producto, cantidad)
     setAgregado(true)
     setTimeout(onClose, 700)
   }
@@ -88,25 +86,6 @@ export default function ProductoModal({ producto, onClose }) {
 
           {seleccionando && !agregado && (
             <div className="mt-2 flex flex-col gap-4 rounded-2xl bg-crema-2 p-4">
-              {tieneVariantes && (
-                <div>
-                  <p className="mb-2 text-sm font-semibold text-choco-700">Elegí una opción</p>
-                  <div className="flex flex-wrap gap-2">
-                    {producto.variantes.map((v) => (
-                      <button
-                        key={v}
-                        onClick={() => setVariante(v)}
-                        className={`rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${
-                          variante === v ? 'bg-ladrillo text-on-fill' : 'bg-white text-choco-600'
-                        }`}
-                      >
-                        {v}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
               <div className="flex items-center justify-between">
                 <p className="text-sm font-semibold text-choco-700">Cantidad</p>
                 <div className="flex items-center gap-3">

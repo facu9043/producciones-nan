@@ -10,14 +10,12 @@ function draftDeProducto(producto) {
     price: producto.price,
     sinTacc: producto.sinTacc,
     descripcion: producto.descripcion,
-    variantes: producto.variantes,
   }
 }
 
 export default function ProductoRow({ producto, onChange, onDelete }) {
   const [editing, setEditing] = useState(false)
   const [draft, setDraft] = useState(() => draftDeProducto(producto))
-  const [nuevaVariante, setNuevaVariante] = useState('')
   const [saving, setSaving] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [dragOver, setDragOver] = useState(false)
@@ -47,17 +45,6 @@ export default function ProductoRow({ producto, onChange, onDelete }) {
     } finally {
       setSaving(false)
     }
-  }
-
-  function agregarVariante() {
-    const v = nuevaVariante.trim()
-    if (!v || draft.variantes.includes(v)) return
-    setDraft((d) => ({ ...d, variantes: [...d.variantes, v] }))
-    setNuevaVariante('')
-  }
-
-  function quitarVariante(v) {
-    setDraft((d) => ({ ...d, variantes: d.variantes.filter((x) => x !== v) }))
   }
 
   async function handleToggleActivo() {
@@ -171,41 +158,6 @@ export default function ProductoRow({ producto, onChange, onDelete }) {
             rows={2}
             className="rounded-lg border border-crema-3 px-3 py-1.5 outline-none focus:border-ladrillo sm:col-span-2"
           />
-
-          <div className="sm:col-span-2">
-            <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-choco-500">
-              Variantes (opcional — ej. sabores)
-            </p>
-            <div className="mb-2 flex flex-wrap gap-2">
-              {draft.variantes.map((v) => (
-                <span
-                  key={v}
-                  className="flex items-center gap-1.5 rounded-full bg-crema-2 py-1 pl-3 pr-1.5 text-sm text-choco-700"
-                >
-                  {v}
-                  <button
-                    onClick={() => quitarVariante(v)}
-                    aria-label={`Quitar ${v}`}
-                    className="flex h-5 w-5 items-center justify-center rounded-full text-choco-400 hover:text-vino-dark"
-                  >
-                    ✕
-                  </button>
-                </span>
-              ))}
-            </div>
-            <div className="flex gap-2">
-              <input
-                value={nuevaVariante}
-                onChange={(e) => setNuevaVariante(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), agregarVariante())}
-                placeholder="Ej. Chocolate blanco"
-                className="flex-1 rounded-lg border border-crema-3 px-3 py-1.5 text-sm outline-none focus:border-ladrillo"
-              />
-              <Boton as="button" variant="ghost" onClick={agregarVariante} className="rounded-lg px-3 text-sm">
-                Agregar
-              </Boton>
-            </div>
-          </div>
         </div>
       ) : (
         <div className="flex flex-1 flex-col gap-1">
@@ -221,15 +173,6 @@ export default function ProductoRow({ producto, onChange, onDelete }) {
             {producto.category}
           </span>
           {producto.descripcion && <p className="text-sm text-choco-600">{producto.descripcion}</p>}
-          {producto.variantes.length > 0 && (
-            <div className="mt-1 flex flex-wrap gap-1.5">
-              {producto.variantes.map((v) => (
-                <span key={v} className="rounded-full bg-crema-2 px-2 py-0.5 text-xs text-choco-600">
-                  {v}
-                </span>
-              ))}
-            </div>
-          )}
           <p className="mt-1 font-display text-lg text-choco-900">${producto.price.toLocaleString('es-AR')}</p>
         </div>
       )}

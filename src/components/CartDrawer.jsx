@@ -4,10 +4,9 @@ import { whatsappLinkConMensaje } from '../data/contacto'
 import Boton from './Boton'
 
 function armarMensaje(items, totalPrecio) {
-  const lineas = items.map((i) => {
-    const variante = i.variante ? ` (${i.variante})` : ''
-    return `• ${i.cantidad}x ${i.name}${variante} — $${(i.price * i.cantidad).toLocaleString('es-AR')}`
-  })
+  const lineas = items.map(
+    (i) => `• ${i.cantidad}x ${i.name} — $${(i.price * i.cantidad).toLocaleString('es-AR')}`
+  )
   return [
     '¡Hola! Quería hacer este pedido:',
     '',
@@ -59,7 +58,6 @@ export default function CartDrawer() {
                   </div>
                   <div className="flex flex-1 flex-col gap-1">
                     <p className="text-sm font-semibold text-choco-900">{i.name}</p>
-                    {i.variante && <p className="text-xs text-choco-500">{i.variante}</p>}
                     <div className="mt-1 flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <button

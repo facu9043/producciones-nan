@@ -3,10 +3,6 @@ import { createContext, useContext, useEffect, useState } from 'react'
 const CartContext = createContext(null)
 const STORAGE_KEY = 'producciones-nan-carrito'
 
-function lineKey(productoId, variante) {
-  return `${productoId}::${variante || ''}`
-}
-
 function cargarInicial() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
@@ -24,10 +20,9 @@ export function CartProvider({ children }) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(items))
   }, [items])
 
-  // Si ya está la misma línea (producto + variante), suma cantidad.
-  // Si es una variante distinta del mismo producto, queda como línea separada.
-  function agregarAlCarrito(producto, variante, cantidad) {
-    const key = lineKey(producto.id, variante)
+  // Si el producto ya está en el carrito, suma cantidad en vez de duplicar la línea.
+  function agregarAlCarrito(producto, cantidad) {
+    const key = String(producto.id)
     setItems((prev) => {
       const existente = prev.find((i) => i.key === key)
       if (existente) {
@@ -42,7 +37,6 @@ export function CartProvider({ children }) {
           price: producto.price,
           imageUrl: producto.imageUrl,
           pattern: producto.pattern,
-          variante: variante || null,
           cantidad,
         },
       ]
