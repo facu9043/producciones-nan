@@ -1,3 +1,5 @@
+import ResenasSection from '../components/ResenasSection'
+
 const VALORES = [
   {
     icono: '🌾',
@@ -62,6 +64,8 @@ export default function SobreNosotrosPage() {
           </div>
         ))}
       </div>
+
+      <ResenasSection />
     </div>
   )
 }

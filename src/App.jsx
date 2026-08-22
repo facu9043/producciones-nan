@@ -6,6 +6,7 @@ import ContactoPage from './pages/ContactoPage'
 import AdminLayout from './components/admin/AdminLayout'
 import AdminLogin from './pages/admin/AdminLogin'
 import AdminDashboard from './pages/admin/AdminDashboard'
+import AdminResenas from './pages/admin/AdminResenas'
 import RequireAuth from './components/admin/RequireAuth'
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
         }
       >
         <Route index element={<AdminDashboard />} />
+        <Route path="resenas" element={<AdminResenas />} />
       </Route>
     </Routes>
   )

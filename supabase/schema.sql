@@ -74,7 +74,47 @@ create policy "admin logueado puede borrar fotos"
   to authenticated
   using (bucket_id = 'productos-images');
 
--- 3. Catalogo inicial de ejemplo (opcional).
+-- 3. Reseñas de clientes (estrellas + comentario) en "Sobre Nosotros"
+create table if not exists resenas (
+  id bigint generated always as identity primary key,
+  nombre text not null,
+  estrellas smallint not null check (estrellas between 1 and 5),
+  comentario text not null,
+  aprobado boolean not null default false,
+  created_at timestamptz not null default now()
+);
+
+alter table resenas enable row level security;
+
+create policy "publico lee aprobadas"
+  on resenas for select
+  to anon
+  using (aprobado = true);
+
+-- Cualquier visitante puede dejar una reseña, pero siempre queda pendiente
+-- (aprobado = false) sin importar qué mande el cliente en el insert.
+create policy "publico deja resena pendiente"
+  on resenas for insert
+  to anon
+  with check (aprobado = false);
+
+create policy "admin lee todas las resenas"
+  on resenas for select
+  to authenticated
+  using (true);
+
+create policy "admin actualiza resenas"
+  on resenas for update
+  to authenticated
+  using (true)
+  with check (true);
+
+create policy "admin borra resenas"
+  on resenas for delete
+  to authenticated
+  using (true);
+
+-- 4. Catalogo inicial de ejemplo (opcional).
 -- Descomentar y editar con los productos reales de Producciones Nan,
 -- o cargarlos directamente desde el panel /admin una vez publicado el sitio.
 --
