@@ -19,7 +19,7 @@ export default function Header() {
     <header className="sticky top-0 z-40 bg-crema/90 backdrop-blur border-b-2 border-crema-3">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
         <NavLink to="/" className="flex items-center gap-2">
-          <span className="text-3xl">🧁</span>
+          <img src="/logo.png" alt="Producciones Nan" className="h-11 w-11 rounded-full" />
           <span className="font-display text-2xl font-semibold text-choco-900">
             Producciones <span className="text-ladrillo">Nan</span>
           </span>
