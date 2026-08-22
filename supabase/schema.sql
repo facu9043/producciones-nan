@@ -15,6 +15,7 @@ create table if not exists productos (
   pattern text,                              -- emoji de relleno mientras no hay foto real
   sin_tacc boolean not null default false,
   descripcion text,
+  variantes jsonb not null default '[]',    -- ej. ["Chocolate negro", "Chocolate blanco"]
   active boolean not null default true,      -- base del switch activar/desactivar del panel
   created_at timestamptz not null default now()
 );

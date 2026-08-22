@@ -15,6 +15,7 @@ function mapRow(row) {
     pattern: row.pattern || PATRON_POR_CATEGORIA[row.category] || '🧁',
     sinTacc: row.sin_tacc,
     descripcion: row.descripcion || '',
+    variantes: Array.isArray(row.variantes) ? row.variantes : [],
     active: row.active,
     createdAt: row.created_at,
   }
@@ -67,6 +68,7 @@ export async function updateProducto(id, fields) {
   if ('price' in fields) payload.price = fields.price
   if ('sinTacc' in fields) payload.sin_tacc = fields.sinTacc
   if ('descripcion' in fields) payload.descripcion = fields.descripcion
+  if ('variantes' in fields) payload.variantes = fields.variantes
   if ('active' in fields) payload.active = fields.active
   if ('imageUrl' in fields) payload.image_url = fields.imageUrl
 

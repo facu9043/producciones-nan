@@ -2,6 +2,7 @@ import { Outlet } from 'react-router-dom'
 import Header from './Header'
 import Footer from './Footer'
 import WhatsAppFloat from './WhatsAppFloat'
+import CartDrawer from './CartDrawer'
 
 export default function PublicLayout() {
   return (
@@ -12,6 +13,7 @@ export default function PublicLayout() {
       </main>
       <Footer />
       <WhatsAppFloat />
+      <CartDrawer />
     </div>
   )
 }

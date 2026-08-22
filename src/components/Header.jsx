@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
+import { useCart } from '../context/CartContext'
 
 const links = [
   { to: '/', label: 'Catálogo', end: true },
@@ -9,6 +10,7 @@ const links = [
 
 export default function Header() {
   const [open, setOpen] = useState(false)
+  const { totalItems, abrirCarrito } = useCart()
 
   const linkClass = ({ isActive }) =>
     `px-4 py-2 rounded-full font-display font-medium transition-colors ${
@@ -33,13 +35,28 @@ export default function Header() {
           ))}
         </nav>
 
-        <button
-          className="flex h-10 w-10 items-center justify-center rounded-full bg-crema-2 text-choco-700 sm:hidden"
-          onClick={() => setOpen((o) => !o)}
-          aria-label="Abrir menú"
-        >
-          {open ? '✕' : '☰'}
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={abrirCarrito}
+            aria-label="Ver carrito"
+            className="relative flex h-10 w-10 items-center justify-center rounded-full bg-crema-2 text-lg text-choco-700"
+          >
+            🛒
+            {totalItems > 0 && (
+              <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-ladrillo px-1 text-xs font-semibold text-on-fill">
+                {totalItems}
+              </span>
+            )}
+          </button>
+
+          <button
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-crema-2 text-choco-700 sm:hidden"
+            onClick={() => setOpen((o) => !o)}
+            aria-label="Abrir menú"
+          >
+            {open ? '✕' : '☰'}
+          </button>
+        </div>
       </div>
 
       {open && (

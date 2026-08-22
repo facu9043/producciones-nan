@@ -1,26 +1,16 @@
-import { ACENTO_POR_CATEGORIA } from '../data/categorias'
+import { ACENTO_POR_CATEGORIA, FONDO_POR_ACENTO, TEXTO_POR_ACENTO } from '../data/categorias'
 
-const FONDO_POR_ACENTO = {
-  mostaza: 'bg-mostaza-light',
-  terracota: 'bg-terracota-light',
-  oliva: 'bg-oliva-light',
-  vino: 'bg-vino-light',
-  ghost: 'bg-crema-3',
-}
-
-const TEXTO_POR_ACENTO = {
-  mostaza: 'text-mostaza-dark',
-  terracota: 'text-terracota-dark',
-  oliva: 'text-oliva-dark',
-  vino: 'text-vino-dark',
-  ghost: 'text-choco-600',
-}
-
-export default function ProductoCard({ producto }) {
+export default function ProductoCard({ producto, onClick }) {
   const acento = ACENTO_POR_CATEGORIA[producto.category] || 'ghost'
 
   return (
-    <div className="flex flex-col overflow-hidden rounded-3xl border border-crema-3 bg-white shadow-sm transition-transform hover:-translate-y-1 hover:shadow-md">
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={onClick}
+      onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onClick?.()}
+      className="flex cursor-pointer flex-col overflow-hidden rounded-3xl border border-crema-3 bg-white shadow-sm transition-transform hover:-translate-y-1 hover:shadow-md"
+    >
       <div className={`flex h-40 items-center justify-center text-6xl ${FONDO_POR_ACENTO[acento]}`}>
         {producto.imageUrl ? (
           <img src={producto.imageUrl} alt={producto.name} className="h-full w-full object-cover" />

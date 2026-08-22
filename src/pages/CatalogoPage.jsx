@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { fetchActiveProductos } from '../data/productosApi'
 import { CATEGORIAS, ACENTO_POR_CATEGORIA } from '../data/categorias'
 import ProductoCard from '../components/ProductoCard'
+import ProductoModal from '../components/ProductoModal'
 import Boton from '../components/Boton'
 import { supabaseConfigured } from '../lib/supabase'
 
@@ -10,6 +11,7 @@ export default function CatalogoPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [categoria, setCategoria] = useState('Todos')
+  const [seleccionado, setSeleccionado] = useState(null)
 
   useEffect(() => {
     fetchActiveProductos()
@@ -69,9 +71,11 @@ export default function CatalogoPage() {
 
       <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {visibles.map((p) => (
-          <ProductoCard key={p.id} producto={p} />
+          <ProductoCard key={p.id} producto={p} onClick={() => setSeleccionado(p)} />
         ))}
       </div>
+
+      {seleccionado && <ProductoModal producto={seleccionado} onClose={() => setSeleccionado(null)} />}
     </div>
   )
 }
