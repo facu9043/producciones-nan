@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  /* Paleta "horno artesanal": crema intenso + chocolate + un acento vivo por línea de producto */
+  --color-crema: #fbf3e4;
+  --color-crema-2: #f3e5c8;
+  --color-crema-3: #ecd9b2;
+  --color-choco-500: #7a4b32;
+  --color-choco-600: #5c3a28;
+  --color-choco-700: #3a2415;
+  --color-choco-900: #2a180d;
+
+  /* Dulce de horno: facturas, alfajores, dulces */
+  --color-mostaza-light: #fbeacb;
+  --color-mostaza: #d89a2e;
+  --color-mostaza-dark: #8a5a0e;
+
+  /* Panificados: pan de molde, hamburguesa/pancho, chipacitos */
+  --color-terracota-light: #f5dac9;
+  --color-terracota: #c1592c;
+  --color-terracota-dark: #7a3113;
+
+  /* Salado sin TACC: empanadas, tartas, pre pizzas */
+  --color-oliva-light: #e4e8ce;
+  --color-oliva: #74823a;
+  --color-oliva-dark: #454f1e;
+
+  /* Tortas y eventos */
+  --color-vino-light: #e9d0cf;
+  --color-vino: #7a2e33;
+  --color-vino-dark: #4a1a1d;
+
+  /* CTA principal — el color más vivo, reservado para llamados a la acción */
+  --color-ladrillo-light: #f3d3c7;
+  --color-ladrillo: #a83323;
+  --color-ladrillo-dark: #7a2114;
+
+  --color-on-fill: #fdf6ea;
+
+  --font-display: 'Fredoka', system-ui, sans-serif;
+  --font-body: 'Quicksand', system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: var(--color-crema);
+  color: var(--color-choco-700);
+  font-family: var(--font-body);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+}
+
+/* Botones "premium": hover con escala + sombra creciente (easing con rebote),
+   press que se achica, ripple desde el punto de click, gradiente sutil en vez
+   de color plano. Ver propuesta aprobada por el cliente. */
+.btn-tactile {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  background-size: 160% 160%;
+  background-position: 0% 50%;
+  box-shadow: 0 2px 6px rgba(42, 24, 13, 0.18);
+  transition:
+    transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 200ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    background-position 200ms ease;
+}
+.btn-tactile:hover {
+  transform: scale(1.045);
+  box-shadow: 0 8px 20px rgba(42, 24, 13, 0.28);
+  background-position: 100% 50%;
+}
+.btn-tactile:active {
+  transform: scale(0.965);
+  box-shadow: 0 2px 8px rgba(42, 24, 13, 0.22);
+  transition-duration: 90ms;
+}
+.btn-tactile:focus-visible {
+  outline: 2px solid var(--color-choco-900);
+  outline-offset: 3px;
+}
+.btn-tactile:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-ladrillo { background-image: linear-gradient(120deg, var(--color-ladrillo) 0%, var(--color-ladrillo-dark) 55%, var(--color-ladrillo) 100%); color: var(--color-on-fill); }
+.btn-mostaza  { background-image: linear-gradient(120deg, var(--color-mostaza) 0%, var(--color-mostaza-dark) 55%, var(--color-mostaza) 100%); color: var(--color-on-fill); }
+.btn-terracota{ background-image: linear-gradient(120deg, var(--color-terracota) 0%, var(--color-terracota-dark) 55%, var(--color-terracota) 100%); color: var(--color-on-fill); }
+.btn-oliva    { background-image: linear-gradient(120deg, var(--color-oliva) 0%, var(--color-oliva-dark) 55%, var(--color-oliva) 100%); color: var(--color-on-fill); }
+.btn-vino     { background-image: linear-gradient(120deg, var(--color-vino) 0%, var(--color-vino-dark) 55%, var(--color-vino) 100%); color: var(--color-on-fill); }
+.btn-ghost    { background: var(--color-crema-2); color: var(--color-choco-700); box-shadow: none; }
+.btn-ghost:hover { box-shadow: 0 4px 14px rgba(42, 24, 13, 0.14); }
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.45);
+  transform: scale(0);
+  animation: ripple-out 560ms ease-out forwards;
+  pointer-events: none;
+  z-index: -1;
+}
+@keyframes ripple-out {
+  to { transform: scale(2.6); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-tactile { transition: none; }
+  .btn-tactile:hover, .btn-tactile:active { transform: none; }
+  .ripple { display: none; }
+}

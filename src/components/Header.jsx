@@ -1,0 +1,56 @@
+import { useState } from 'react'
+import { NavLink } from 'react-router-dom'
+
+const links = [
+  { to: '/', label: 'Catálogo', end: true },
+  { to: '/sobre-nosotros', label: 'Sobre Nosotros' },
+  { to: '/contacto', label: 'Contacto' },
+]
+
+export default function Header() {
+  const [open, setOpen] = useState(false)
+
+  const linkClass = ({ isActive }) =>
+    `px-4 py-2 rounded-full font-display font-medium transition-colors ${
+      isActive ? 'bg-ladrillo-light text-ladrillo-dark' : 'text-choco-600 hover:bg-crema-2'
+    }`
+
+  return (
+    <header className="sticky top-0 z-40 bg-crema/90 backdrop-blur border-b-2 border-crema-3">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
+        <NavLink to="/" className="flex items-center gap-2">
+          <span className="text-3xl">🧁</span>
+          <span className="font-display text-2xl font-semibold text-choco-900">
+            Producciones <span className="text-ladrillo">Nan</span>
+          </span>
+        </NavLink>
+
+        <nav className="hidden gap-2 sm:flex">
+          {links.map((l) => (
+            <NavLink key={l.to} to={l.to} end={l.end} className={linkClass}>
+              {l.label}
+            </NavLink>
+          ))}
+        </nav>
+
+        <button
+          className="flex h-10 w-10 items-center justify-center rounded-full bg-crema-2 text-choco-700 sm:hidden"
+          onClick={() => setOpen((o) => !o)}
+          aria-label="Abrir menú"
+        >
+          {open ? '✕' : '☰'}
+        </button>
+      </div>
+
+      {open && (
+        <nav className="flex flex-col gap-1 border-t border-crema-3 bg-crema px-4 py-3 sm:hidden">
+          {links.map((l) => (
+            <NavLink key={l.to} to={l.to} end={l.end} className={linkClass} onClick={() => setOpen(false)}>
+              {l.label}
+            </NavLink>
+          ))}
+        </nav>
+      )}
+    </header>
+  )
+}
